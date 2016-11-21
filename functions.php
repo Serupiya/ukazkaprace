@@ -9,6 +9,7 @@ function getDatabaseConnection(){
 	$db = substr($url["path"], 1);
 
 	$conn = new mysqli($server, $username, $password, $db);
+	echo var_dump($conn);
     return $conn;
 }
 
