@@ -45,8 +45,6 @@
     <script>
 
         function check_selection(){
-            console.log("test")
-            console.log($( "select[name='discount_type'] option:selected").attr("value"))
                 if ($( "select option:selected").attr("value") == "quantity_discount"){
                     $("input[name='discount_percentage']").attr("type", "number")
                     $("input[name='discount_percentage']").attr("required", "true")

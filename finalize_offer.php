@@ -57,8 +57,7 @@ class FinalizeOfferView
     }
     private function addItemToOffer($item_id, $count, $price, $offer_id){
         $command = "insert into offer_items (item_id, count, cost, offer_id) values (%d, %d, %d, %d)";
-        $result = $this->conn->query(sprintf($command, $item_id, $count, $price, $offer_id));
-        echo var_dump($result);
+        $this->conn->query(sprintf($command, $item_id, $count, $price, $offer_id));
     }
     private function getItemPrice($item_id, $item_count){
         $result = $this->conn->query("select price, discount_type, discount_quantity, discount_percentage from items where id = " . $item_id);
