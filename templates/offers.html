@@ -1,0 +1,26 @@
+{% extends "design/base.html" %}
+{% block content %}
+    <h1>Offers</h1>
+    <table class="pure-table" style="width:100%">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for row in table %}
+            <tr>
+                <td >{{row.offer_name}}</td>
+                <td>{{row.cost}}$ </td>
+                <form method="get" action="offer_detail.php">
+                    <input type="hidden" name="id" value = {{row.id}}>
+                    <td><button class="pure-button" type="submit" name="details" style="width:100%">Details</button></td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="pure-button" onclick="location='create_offer.php'">Create new offer</button>
+{% endblock %}

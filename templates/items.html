@@ -1,0 +1,58 @@
+{% extends "design/base.html" %}
+{% block content %}
+    <h1>Items</h1>
+    <form method="post" class="pure-form pure-form">
+        <select name="filter_select" class="pure-input-2-3">
+            <option value = "both" >Both</option>
+            <option value = "gluten" {% if selected_filter == 'gluten' %} selected {% endif %}>Contains gluten</option>
+            <option value = "glutenfree" {% if selected_filter == 'glutenfree' %} selected {% endif %}>Gluten-free</option>
+        </select>
+        <button class="pure-button" type="submit" name="filter">Filter</button>
+    </form>
+<br>
+    <table class="pure-table" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Count</th>
+                <th>Discount</th>
+                <th>Gluten</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in table %}
+            <tr>
+                <td> {{row.name}} </td>
+                <td> {{row.price}}$ </td>
+                <td> {{row.count}} </td>
+                <td> {% if row.discount_type == "3_plus_1" %}
+                        3+1
+                     {% elseif row.discount_type == "quantity_discount" %}
+                        {{row.discount_percentage}}% if >= {{row.discount_quantity}} bought
+                    {% else %}
+                        None
+                    {% endif %}
+                </td>
+                <td> {% if row.gluten %} contains gluten {% else %} gluten-free {% endif %} </td>
+                <form method="post">
+                    <input type="hidden" name="id" value = {{row.id}}>
+                    <td> <button class="pure-button" type="submit" name="delete">Delete</button> </td>
+                </form>
+                <form method="get" action="item_detail.php">
+                    <input type="hidden" name="id" value = {{row.id}}>
+                    <td> <button class="pure-button" type="submit" name="modify">Modify</button> </td>
+                </form>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <button class="pure-button" onclick="location='item_detail.php'">Create new item</button>
+
+</body>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "design/base.html" %}
+{% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <form method="post" action="finalize_offer.php" class="pure-form pure-form">
+        <fieldset>
+            <legend> Create new offer </legend>
+            <input name="offer_name" placeholder="Offer name" style="width:100%" required>
+            <p></p>
+            <table class="pure-table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Item name</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody id="offer_div">
+
+                </tbody>
+            </table>
+            <input id="item_count" type="hidden" name="item_count" value="1">
+            <button class="pure-button" style="float:left" type="submit" name="finalize">Finalize offer</button>
+            <button class="pure-button" style="float:right" type="button" value="1" id="item_adding_button" onclick="button_add_action()">Add item</button>
+        </fieldset>
+    </form>
+    <script>
+        function add_new_item(item_num){
+            $("#offer_div").append('<tr>\
+                                       <td><select style="width:100%" name="item' + item_num + '">\
+                                            <option value = "" ></option>\
+                                            {% for item in item_table %}\
+                                                <option value = {{item.id}} > {{item.name}} </option>\
+                                            {% endfor %}\
+                                        </select></td>\
+                                        <td><input name="count' + item_num + '" type="number" min="1" style="width:100%"></td>\
+                                    </tr>'
+            )
+        }
+        function button_add_action(){
+            $("#item_adding_button").attr("value", Number($("#item_adding_button").attr("value"))+1)
+            $("#item_count").attr("value", Number($("#item_count").attr("value"))+1)
+            add_new_item($("#item_adding_button").attr("value"))
+        }
+        add_new_item(1)
+    </script>
+{% endblock %}

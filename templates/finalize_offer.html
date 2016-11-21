@@ -1,0 +1,36 @@
+{% extends "design/base.html" %}
+{% block content %}
+    <h1>{{offer_name}}</h1>
+    <table class="pure-table" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Count</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in summary %}
+            <tr {% if item.message %} style="background-color: #ff9892" {% endif %}>
+                <td>{{item.name}}</td>
+                <td>{{item.count}}</td>
+                <td>{{item.price}}$ {{item.message}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Total: {{total_price}}$</h2>
+    <form method="post">
+        {% for item in summary %}
+            <input type="hidden" name="id{{loop.index}}" value={{item.id}}>
+            <input type="hidden" name="count{{loop.index}}" value={{item.count}}>
+            <input type="hidden" name="price{{loop.index}}" value={{item.price}}>
+            {% if loop.last %}
+            <input type="hidden" name="total_items" value={{loop.index}}>
+            {% endif %}
+        {% endfor %}
+        <input type="hidden" name="offer_name" value="{{offer_name}}">
+        <input type="hidden" name="total_price" value={{total_price}}>
+        <button class="pure-button" type="submit" name="confirm">Confirm</button>
+    </form>
+{% endblock %}

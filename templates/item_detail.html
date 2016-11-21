@@ -1,0 +1,66 @@
+{% extends "design/base.html" %}
+{% block content %}
+    <h2> {{announcement}} </h2>
+    <form method="post" class="pure-form pure-form-stacked">
+        {% if item_description.id %}
+            <input type="hidden" name="id" value = {{item_description.id}}>
+        {% endif %}
+        <fieldset>
+            <legend>
+                {% if item_description.id %}
+                    Modify item
+                {% else %}
+                    Add new item
+                {% endif %}
+            </legend>
+            <input class="pure-input-1" name="name" value="{{item_description.name}}" placeholder="Item name" required>
+            <input class="pure-input-1" name="price" value="{{item_description.price}}" placeholder="Item Price" type="number" min="0.01" step="0.01">
+            <input class="pure-input-1" name="count" value="{{item_description.count}}" placeholder="Item count" type="number" min="1">
+
+
+            <select class="pure-input-1" name="discount_type" onchange="check_selection()">
+                <option value = "none" {% if item_description.discount_type == "none" %}selected {% endif %}> None </option>
+                <option value = "quantity_discount" {% if item_description.discount_type == "quantity_discount" %} selected {% endif %}> Quantity discount </option>
+                <option value = "3_plus_1" {% if item_description.discount_type == "3_plus_1" %} selected {% endif %}> 3+1 </option>
+            </select>
+
+            <input class="pure-input-1" name="discount_quantity" value="{{item_description.discount_quantity}}" placeholder="Minimal quantity for the discount" type="hidden" min="1">
+            <input class="pure-input-1" name="discount_percentage" value="{{item_description.discount_percentage}}" placeholder="Discount percentage" type="hidden" min="1" max="100">
+
+            <select class="pure-input-1" name="gluten">
+                <option value = "1" {% if item_description.gluten == 1 %} selected {% endif %}>Contains gluten</option>
+                <option value = "0" {% if item_description.gluten == 2 %} selected {% endif %}>Gluten-free</option>
+            </select>
+
+            <button class="pure-button" type="submit" name="save">Save</button>
+            {% if item_description.id %}
+                <button class="pure-button" type="submit" name="delete">Delete</button>
+            {% endif %}
+            <button style="float:right" type="button" class="pure-button" onclick="location='items.php'">Go back</button>
+        </fieldset>
+    </form>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+
+        function check_selection(){
+            console.log("test")
+            console.log($( "select[name='discount_type'] option:selected").attr("value"))
+                if ($( "select option:selected").attr("value") == "quantity_discount"){
+                    $("input[name='discount_percentage']").attr("type", "number")
+                    $("input[name='discount_percentage']").attr("required", "true")
+                    $("input[name='discount_quantity']").attr("type", "number")
+                    $("input[name='discount_quantity']").attr("required", "true")
+                }
+                else{
+                    $("input[name='discount_percentage']").attr("type", "hidden")
+                    $("input[name='discount_percentage']").attr("required", "false")
+                    $("input[name='discount_quantity']").attr("type", "hidden")
+                    $("input[name='discount_quantity']").attr("required", "false")
+                }
+        }
+        check_selection()
+    </script>
+
+{% endblock %}

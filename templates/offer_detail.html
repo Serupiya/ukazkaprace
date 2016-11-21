@@ -1,0 +1,28 @@
+{% extends "design/base.html" %}
+{% block content %}
+    <h2>{{message}}</h2>
+    {% if offer %}
+        <h1>{{offer.offer_name}}</h1>
+        <table class="pure-table" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Count</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in offer_items %}
+                <tr>
+                    <td>{{item.name}}</td>
+                    <td>{{item.count}}</td>
+                    <td>{{item.cost}}$</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <h3>Total: {{offer.cost}}$</h3>
+    {% endif %}
+    <button class="pure-button" onclick="location='offers.php'">Go back</button>
+
+{% endblock %}
